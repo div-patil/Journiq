@@ -19,6 +19,33 @@ router.route("/")
     upload.single('listing[image]'),
     wrapAsync(listingController.createListing))
 
+router.get('/v2/list', async (req, res) => {
+        const category = req.query.category;
+         // Get category from query string
+        let filteredListings;
+      
+        if (category) {
+          // Fetch listings matching the category
+          
+          filteredListings = await Listing.find({ category });
+          console.log(filteredListings);
+        } 
+        if(filteredListings.length === 0)
+        {
+            req.flash("error","No listings available for this category.")
+            return res.redirect("/Listing")
+        }
+        else{
+            res.render("./listing/index.ejs",{allListing:filteredListings});
+        }
+      
+        
+      });
+// router.get("/map",(req,res)=>{
+//     const longitude = req.body.query;
+//     const latitude = req.body.query;
+//     const map = L.map('map').setView([latitude, longitude], 13);
+// })
 router.get("/search",wrapAsync(listingController.searchListing))
 
 router.get("/new",isLoggedIn,listingController.newListing);

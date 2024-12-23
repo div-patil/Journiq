@@ -17,6 +17,9 @@ const listingSchema = new Schema(
             url:String,
             filename:String,
         },
+        category:{
+            type:String,
+        },
         price:{
             type:Number
         },
@@ -27,10 +30,17 @@ const listingSchema = new Schema(
             type:String
         },
        
-    //  category:{
-    //     type:String,
-    //     enum:["mountain","arctic","rooms","castles","trending","iconic city","champing","farm"]
-    //  },
+    geometry: {
+        type: {
+          type: String, // Don't do `{ location: { type: String } }`
+          enum: ['Point'], // 'location.type' must be 'Point'
+          required: true
+        },
+        coordinates: {
+          type: [Number],
+          required: true
+        }
+      },
      reviews:[
         {
             type:Schema.Types.ObjectId,

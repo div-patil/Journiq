@@ -24,12 +24,45 @@ module.exports.searchListing = async(req,res)=>{
 module.exports.createListing = async(req,res,next)=>{
     let url = req.file.path;
     let filename = req.file.filename; 
+    
     const newListing=new Listing( req.body.listing); 
+    let address = newListing.location;
+    try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`,
+          {
+            headers: { "User-Agent": "MyApp/1.0 (myemail@example.com)" }, // Required by Nominatim
+          }
+        )
+      
+        const data = await response.json();
+        
+        const latitude = parseFloat(data[0].lat);
+        const longitude = parseFloat(data[0].lon);
+        
+           const  geometry = {
+              type: "Point",
+              coordinates : [longitude, latitude], // GeoJSON requires [lon, lat]
+            };
+         
+          newListing.geometry = geometry;
+          let saveListed = await newListing.save();
+
+        console.log(saveListed);
+          }catch (error) {
+            console.error("Error fetching or saving location:", error.message);
+            res.status(500).json({ error: "Internal Server Error" });
+          }
     newListing.owner = req.user._id; 
     newListing.image={url,filename}   
     await newListing.save();
     req.flash("success","new Listing add Successfully!!");
-    res.redirect("/Listing")
+    
+    
+    
+    
+      res.redirect("/Listing")
+    
     
 
 // console.log(listing)

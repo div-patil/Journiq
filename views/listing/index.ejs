@@ -1,4 +1,5 @@
 <% layout("/layouts/boilerplate") -%>
+
   <style>
     #filters {
       display: flex;
@@ -43,47 +44,47 @@
         <button type="submit">Create New</button>
     </form> -->
     <div id="filters">
-      <div class="filter">
+      <div class="filter" id="Earth Homes">
         <div><i class="fa-solid fa-fire"></i></div>
         <p>Trending</p>
       </div>
-      <div class="filter">
+      <div class="filter" id="Rooms">
         <div><i class="fa-solid fa-bed"></i></div>
         <p>Rooms</p>
       </div>
-      <div class="filter">
+      <div class="filter" id="Iconic Cities">
         <div><i class="fa-solid fa-mountain-city"></i></div>
         <p>Iconic Cities</p>
       </div>
-      <div class="filter">
+      <div class="filter" id="Mountains">
         <div><i class="fa-solid fa-mountain"></i></div>
         <p>Mountains</p>
       </div>
-      <div class="filter">
+      <div class="filter" id="Amazing pools">
         <div><i class="fa-solid fa-person-swimming"></i></div>
         <p>Amazing pools</p>
       </div>
-      <div class="filter">
+      <div class="filter" id="arctic">
         <div><i class="fa-solid fa-snowflake"></i></div>
         <p>arctic</p>
       </div>
-      <div class="filter">
+      <div class="filter" id="Earth Homes">
         <div><i class="fa-brands fa-fort-awesome"></i></div>
-        <p>Castles</p>
+        <p>Earth Homes</p>
       </div>
-      <div class="filter">
+      <div class="filter" id="Champing">
         <div><i class="fa-solid fa-campground"></i></div>
-        <p>champing</p>
+        <p>Champing</p>
       </div>
-      <div class="filter">
+      <div class="filter" id="Farms">
         <div><i class="fa-solid fa-cow"></i></div>
-        <p>Farm</p>
+        <p>Farms</p>
       </div>
-      <div class="filter">
+      <div class="filter" id="Craves">
         <div><i class="fa-solid fa-igloo"></i></div>
-        <p>Demos</p>
+        <p>Craves</p>
       </div>
-      <div class="filter">
+      <div class="filter" id="Boat">
         <div><i class="fa-solid fa-sailboat"></i></div>
         <p>Boat</p>
       </div>
@@ -99,6 +100,9 @@
 
     <!-- listing -->
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+      <% if(allListing) { %>
+
+      
       <% for(let list of allListing) { %>
           
           <a href="/Listing/<%- list._id %>" class="Listing-links">
@@ -107,7 +111,7 @@
               <!-- <img src="" alt="" srcset=""> -->
               <img src="<%= list.image.url %>" class="card-img-top" style="height: 20rem;" alt="Listing-image">
               <div class="card-img-overlay"></div>
-              <p>pppp</p>
+              <p><%= list.title %></p>
               <div class="card-body">
                 <p class="card-text">
                   <b>
@@ -127,6 +131,10 @@
 
 
     </div>
+    <% } else { %>
+      
+      <% } %>
+
   </body>
   <script>
     let flexSwitch = document.getElementById("flexSwitchCheckDefault");
@@ -142,4 +150,22 @@
         }
       }
     })
+   
+  document.addEventListener('DOMContentLoaded', () => {
+    // Fetch all category divs
+    const divs = document.querySelectorAll('.filter');
+
+    // Add click event listener to each div
+    divs.forEach(div => {
+      div.addEventListener('click', () => {
+        const category = div.id; // Use div's ID as category
+        if (category) {
+          // Redirect to the category-specific route
+          window.location.href = `/Listing/v2/list?category=${category}`;
+          
+        }
+      });
+    });
+  });
+   
   </script>

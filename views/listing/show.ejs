@@ -1,4 +1,8 @@
 <% layout("/layouts/boilerplate") -%>
+<script>
+  const display =  <%- JSON.stringify(listing.title) %>;
+  const coordinates = <%- JSON.stringify(listing.geometry.coordinates) %>;
+</script>
   <div class="row">
     <div class="col-8 offset-3 mt-2">
       <h3>
@@ -13,10 +17,11 @@
               <%= listing.owner.username %>
             </b></i></p>
         <%= listing.description %> <br>
-          &#8377 <%= listing.price.toLocaleString("en-IN") %> <br>
-            <%= listing.location %> <br>
-              <%= listing.country %><br>
-                </p>
+          <%= listing.category %> <br>
+            &#8377 <%= listing.price.toLocaleString("en-IN") %> <br>
+              <%= listing.location %> <br>
+                <%= listing.country %><br>
+                  </p>
       </div>
     </div>
 
@@ -31,7 +36,7 @@
       </form>
     </div>
 
-    <% } %>
+  <% } %>
 
 
       <div class="col-8 offset-3 mt-2">
@@ -101,3 +106,9 @@
             </div>
 
       </div>
+
+      <div class="col-6 offset-3 mt-2">
+        <h3>Where you'll be</h3>
+        <div id="map"></div>
+      </div>
+      <script src="/js/map.js"></script>

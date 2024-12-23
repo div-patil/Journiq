@@ -87,6 +87,19 @@ app.use((req,res,next)=>{
     next();
 });
 
+const query = "pune";
+const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json`;
+fetch(url)
+  .then(response => response.json())
+  .then(data => console.log(data[0].display_name))
+  .catch(error => console.error("Error:", error));
+
+
+app.get("map/",(req,res)=>{
+    res.render("./listing/map.ejs");
+})
+
+
 app.use("/Listing",listingsRouter);
 app.use("/Listing/:id/reviews",reviewsRouter);
 app.use("/",userRouter);
